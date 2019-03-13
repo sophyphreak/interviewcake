@@ -1,3 +1,6 @@
+// according to interviewCake this is not the optimal solution
+// because this scoots over the characters, O(n^2) time
+
 const reverseWords = message => {
   let numberOfWords = 1;
   for (let letter of message) {
