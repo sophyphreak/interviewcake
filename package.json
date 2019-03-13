@@ -1,0 +1,18 @@
+{
+  "name": "interviewcake",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:sophyphreak/interviewcake.git",
+  "author": "Andrew <arhorn@smcm.edu>",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^1.3.1",
+    "prettier": "1.16.4",
+    "pretty-quick": "^1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
