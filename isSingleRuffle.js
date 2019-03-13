@@ -1,39 +1,49 @@
 const isSingleRiffle = (shuffledDeck, half1, half2) => {
-  const deck = shuffledDeck.slice();
-  const h1 = half1.slice();
-  const h2 = half2.slice();
-  while (h1.length && h2.length) {
-    switch(deck[0]) {
-      case h1[0]:
-        deck.shift();
-        h1.shift();
+  let deckIndex = 0;
+  let h1Index = 0;
+  let h2Index = 0;
+  while (arrayIndexExists(half1, h1Index) && arrayIndexExists(half2, h2Index)) {
+    const deckVal = shuffledDeck[deckIndex];
+    const h1Val = half1[h1Index];
+    const h2Val = half2[h2Index];
+    switch (deckVal) {
+      case h1Val:
+        deckIndex++;
+        h1Index++;
         break;
-      case h2[0]:
-        deck.shift();
-        h2.shift();
+      case h2Val:
+        deckIndex++;
+        h2Index++;
         break;
       default:
         return false;
     }
   }
-  while (h1.length) {
-    if (deck[0] === h1[0]) {
-      deck.shift();
-      h1.shift();
+  while (arrayIndexExists(half1, h1Index)) {
+    const deckVal = shuffledDeck[deckIndex];
+    const h1Val = half1[h1Index];
+    if (deckVal === h1Val) {
+      deckIndex++;
+      h1Index++;
     } else {
       return false;
     }
   }
-  while (h2.length) {
-    if (deck[0] === h2[0]) {
-      deck.shift();
-      h2.shift();
+  while (arrayIndexExists(half2, h2Index)) {
+    const deckVal = shuffledDeck[deckIndex];
+    const h2Val = half2[h2Index];
+    if (deckVal === h2Val) {
+      deckIndex++;
+      h2Index++;
     } else {
       return false;
     }
   }
   return true;
 };
+
+const arrayIndexExists = (array, index) =>
+  !(typeof array[index] === 'undefined');
 
 // for testing
 
@@ -51,7 +61,6 @@ const generateHalves = () => {
   }
   return { half1, half2 };
 };
-
 
 const generateSingleRiffle = (half1, half2) => {
   const h1 = half1.slice();
