@@ -56,4 +56,16 @@ assert.deepEqual(
   [{ startTime: 1, endTime: 5 }],
   "test 3"
 );
+meetingTimes = [
+  { startTime: 1, endTime: 10 },
+  { startTime: 2, endTime: 6 },
+  { startTime: 3, endTime: 5 },
+  { startTime: 7, endTime: 9 }
+];
+assert.deepEqual(
+  mergeRanges(meetingTimes),
+  [{ startTime: 1, endTime: 10 }],
+  "test 4"
+);
+
 console.log("all tests pass");
