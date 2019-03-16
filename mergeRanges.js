@@ -7,7 +7,9 @@ const mergeRanges = meetingTimes => {
     for (let j = index + 1; j < meetingTimes.length; j++) {
       const currentEnd = meetingTimes[j];
       if (currentEnd.startTime <= currentStart.endTime) {
-        currentStart.endTime = currentEnd.endTime;
+        if (currentStart.endTime <= currentEnd.endTime) {
+          currentStart.endTime = currentEnd.endTime;
+        }
         if (!beginSpliceIndex) {
           beginSpliceIndex = j;
           endSpliceIndex = j + 1;
@@ -47,5 +49,11 @@ assert.deepEqual(
   mergeRanges(meetingTimes),
   [{ startTime: 1, endTime: 3 }],
   "test 2"
+);
+meetingTimes = [{ startTime: 1, endTime: 5 }, { startTime: 2, endTime: 3 }];
+assert.deepEqual(
+  mergeRanges(meetingTimes),
+  [{ startTime: 1, endTime: 5 }],
+  "test 3"
 );
 console.log("all tests pass");
