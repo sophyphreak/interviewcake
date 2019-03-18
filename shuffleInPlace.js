@@ -1,17 +1,28 @@
-const getRandom = (floor, ceiling) => {
-  return Math.floor(Math.random() * (ceiling - floor)) + floor;
-};
-
-const shuffle = theArray => {
-  for (let index = 0; index < theArray.length; index++) {
-    const toMoveIndex = getRandom(0, theArray.length);
-    const toMove = theArray[toMoveIndex];
-    theArray.splice(toMoveIndex, 1);
-    theArray.unshift(toMove);
+const shuffleInPlace = array => {
+  const ceiling = array.length - 1;
+  for (let index = 0; index < array.length; index++) {
+    const newIndex = getRandom(index, ceiling);
+    array = swap(array, index, newIndex);
   }
+  return array;
 };
 
-const sample = [1, 2, 3, 4, 5];
-console.log('Initial array: ', sample);
-shuffle(sample);
-console.log('Shuffled array: ', sample);
+const swap = (array, firstIndex, secondIndex) => {
+  const temp = array[firstIndex];
+  array[firstIndex] = array[secondIndex];
+  array[secondIndex] = temp;
+  return array;
+};
+
+const getRandom = (floor, ceiling) =>
+  Math.floor(Math.random() * (ceiling + 1 - floor) + floor);
+
+let array = [1, 2, 3, 4, 5, 6, 7];
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
+console.log(shuffleInPlace(array));
