@@ -1,86 +1,41 @@
-function highestProductOf3(arrayOfInts) {
-  if (arrayOfInts.length < 3) {
-    throw 'Need at least three numbers';
-  }
-
-  const one = arrayOfInts[0];
-  const two = arrayOfInts[1];
-  const three = arrayOfInts[2];
-
-  let highestProductOfThree = one * two * three;
-  let highestProductOfTwo = Math.max(one * two, two * three, one * three);
-  let highest = Math.max(one, two, three);
-  let lowestProductOfTwo = Math.min(one * two, two * three, one * three);
-  let lowest = Math.min(one, two, three);
-
+const highestProductOfThree = arrayOfInts => {
+  const firstThree = arrayOfInts.slice(0, 3);
+  firstThree.sort();
+  let highest = firstThree[2];
+  let secondHighest = firstThree[1];
+  let thirdHighest = firstThree[0];
+  let secondLowest = firstThree[1];
+  let lowest = firstThree[0];
   for (let index = 3; index < arrayOfInts.length; index++) {
     const current = arrayOfInts[index];
-    highestProductOfThree = Math.max(
-      highestProductOfThree,
-      highestProductOfTwo * current,
-      lowestProductOfTwo * current
-    );
-    highestProductOfTwo = Math.max(highestProductOfTwo, current * highest);
-    lowestProductOfTwo = Math.min(lowestProductOfTwo, current * lowest);
-    highest = Math.max(highest, current);
-    lowest = Math.min(lowest, current);
+    if (current > highest) {
+      thirdHighest = secondHighest;
+      secondHighest = highest;
+      highest = current;
+    } else if (current > secondHighest) {
+      thirdHighest = secondHighest;
+      secondHighest = current;
+    } else if (current > thirdHighest) {
+      thirdHighest = current;
+    }
+    if (current < lowest) {
+      secondLowest = lowest;
+      lowest = current;
+    } else if (current < secondLowest) {
+      secondLowest = current;
+    }
   }
+  return Math.max(
+    highest * secondHighest * thirdHighest,
+    highest * lowest * secondLowest
+  );
+};
 
-  return highestProductOfThree;
-}
+const assert = require("assert");
 
-// Tests
+let arrayOfInts = [1, 2, 3, 4, 5];
+assert.equal(highestProductOfThree(arrayOfInts), 60, "test 1");
+arrayOfInts = [-10, -10, 1, 3, 2];
+assert.equal(highestProductOfThree(arrayOfInts), 300, "test 2");
 
-let desc = 'short array';
-let actual = highestProductOf3([1, 2, 3, 4]);
-let expected = 24;
-assertEqual(actual, expected, desc);
-
-desc = 'longer array';
-actual = highestProductOf3([6, 1, 3, 5, 7, 8, 2]);
-expected = 336;
-assertEqual(actual, expected, desc);
-
-desc = 'array has one negative';
-actual = highestProductOf3([-5, 4, 8, 2, 3]);
-expected = 96;
-assertEqual(actual, expected, desc);
-
-desc = 'array has two negatives';
-actual = highestProductOf3([-10, 1, 3, 2, -10]);
-expected = 300;
-assertEqual(actual, expected, desc);
-
-desc = 'array is all negatives';
-actual = highestProductOf3([-5, -1, -3, -2]);
-expected = -6;
-assertEqual(actual, expected, desc);
-
-desc = 'error with empty array';
-const emptyArray = () => highestProductOf3([]);
-assertThrowsError(emptyArray, desc);
-
-desc = 'error with one number';
-const oneNumber = () => highestProductOf3([1]);
-assertThrowsError(emptyArray, desc);
-
-desc = 'error with two numbers';
-const twoNumber = () => highestProductOf3([1, 1]);
-assertThrowsError(twoNumber, desc);
-
-function assertEqual(a, b, desc) {
-  if (a === b) {
-    console.log(`${desc} ... PASS`);
-  } else {
-    console.log(`${desc} ... FAIL: ${a} != ${b}`);
-  }
-}
-
-function assertThrowsError(func, desc) {
-  try {
-    func();
-    console.log(`${desc} ... FAIL`);
-  } catch (e) {
-    console.log(`${desc} ... PASS`);
-  }
-}
+console.log("all tests pass");
